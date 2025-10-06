@@ -1,0 +1,66 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px 12px;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  position: sticky;   /* always visible */
+  top: 0;
+  z-index: 100;
+}
+
+.topbar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topbar-logo {
+  height: 28px;
+}
+
+.topbar-center {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 600;
+}
+
+.topbar-branch {
+  padding: 4px 6px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+}
+
+.topbar-period {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.topbar-user {
+  font-weight: 700;
+}
+
+.topbar-datetime {
+  font-size: 0.85rem;
+  color: #374151;
+}
+
+.btn.small {
+  padding: 3px 8px;
+  font-size: 0.85rem;
+}
+
+.icon-btn {
+  background: transparent;
+  border: none;
+  font-size: 1.1rem;
+  cursor: pointer;
+}

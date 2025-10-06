@@ -1,0 +1,49 @@
+src/pages/ModuleBase.css
+
+.module-wrap {
+  padding: 16px;
+  background: var(--bg, #f6f7fb);
+  min-height: 100vh;
+}
+
+.module-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.module-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 800;
+}
+
+.module-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  border: none;
+  border-radius: 8px;
+  padding: 8px 12px;
+  background: var(--primary, #0a1f4d); /* exact color from image */
+  color: #fff;
+  cursor: pointer;
+  font-weight: 700;
+}
+
+.card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 14px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, .06);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 12px;
+}

@@ -1,0 +1,239 @@
+/* ===========================
+   Reservation Sidebar (animated)
+   =========================== */
+
+/* uses: --primary, --card, --text, --muted, --ring from your :root */
+:root {
+  --rsb-w: 240px;
+  --rsb-w-mini: 50px;
+  --rsb-bg:  #0b218d;              /* deep red like your screenshot */
+  --rsb-bg-2: #0b218d;
+  --rsb-line: rgba(255,255,255,.12);
+  --rsb-text: #fff;
+  --rsb-muted: rgba(255,255,255,.7);
+  --rsb-active: #ffffff;
+  --rsb-shadow: 0 10px 30px rgba(0,0,0,.25);
+}
+
+/* shell */
+.rsb {
+  position: fixed;
+  inset: 0 auto 0 0;
+  width: var(--rsb-w);
+  z-index: 40;
+  background: linear-gradient(180deg, var(--rsb-bg), var(--rsb-bg-2));
+  color: var(--rsb-text);
+  border-right: 1px solid var(--rsb-line);
+  box-shadow: var(--rsb-shadow);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  transform: translateX(-8px);
+  opacity: 0;
+  animation: rsb-slide-in .45s cubic-bezier(.2,.75,.25,1) forwards;
+  will-change: transform, opacity;
+}
+
+.rsb--mini { width: var(--rsb-w-mini); }
+
+/* top */
+.rsb-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 10px 4px 10px;
+  border-bottom: 1px solid var(--rsb-line);
+}
+
+.rsb-burger {
+  width: 36px; height: 32px;
+  border: 1px solid var(--rsb-line);
+  background: transparent;
+  border-radius: 10px;
+  display: grid; place-items: center;
+  gap: 3px; padding: 0 6px; cursor: pointer;
+  transition: transform .12s ease, box-shadow .2s ease, border-color .2s ease;
+  position: relative; overflow: hidden;
+}
+.rsb-burger span {
+  display: block; width: 18px; height: 2px; background: var(--rsb-text);
+  border-radius: 2px;
+}
+.rsb-burger:hover { box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.rsb-burger:active { transform: translateY(1px) scale(.98); }
+
+.rsb-close {
+  height: 32px; width: 32px; border-radius: 10px;
+  border: 1px solid var(--rsb-line); background: transparent; color: var(--rsb-text);
+  cursor: pointer; transition: transform .12s ease, box-shadow .2s ease;
+}
+.rsb-close:hover { box-shadow: 0 8px 20px rgba(0,0,0,.25); }
+.rsb-close:active { transform: translateY(1px) scale(.98); }
+
+/* nav */
+.rsb-nav {
+  padding: 6px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(255,255,255,.25) transparent;
+}
+
+/* item */
+.rsb-item {
+  --pad-x: 10px;
+  display: grid;
+  grid-template-columns: 28px 1fr auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px var(--pad-x);
+  border-radius: 12px;
+  color: var(--rsb-muted);
+  text-decoration: none;
+  position: relative;
+  transition: background .2s ease, color .2s ease, transform .08s ease, box-shadow .2s ease;
+}
+.rsb-item:hover {
+  background: rgba(255,255,255,.06);
+  color: var(--rsb-active);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.12);
+}
+.rsb-item:active { transform: translateY(1px) scale(.995); }
+
+/* glossy hover sheen */
+.rsb-item::after {
+  content:"";
+  position:absolute; inset:0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.18), transparent);
+  transform: translateX(-120%);
+  transition: transform .5s ease;
+  border-radius: inherit; pointer-events: none;
+}
+.rsb-item:hover::after { transform: translateX(120%); }
+
+.rsb-item.active {
+  color: var(--rsb-active);
+  background: rgba(255,255,255,.12);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+/* ripple on click */
+.rsb-item:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 6px rgba(255,255,255,.16);
+}
+.rsb-item:active::before {
+  content:"";
+  position:absolute; inset:0; border-radius: inherit; pointer-events:none;
+  background: radial-gradient(transparent 1px, rgba(255,255,255,.15) 2px, transparent 40%);
+  animation: rsb-ripple .6s ease;
+}
+
+/* icon + label + caret */
+.rsb-ico { width: 28px; text-align: center; filter: drop-shadow(0 1px 0 rgba(0,0,0,.2)); }
+.rsb-lbl { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; font-weight: 700; letter-spacing: .2px; }
+
+.rsb-caret {
+  margin-left: 8px;
+  transform: rotate(-90deg);
+  transition: transform .2s ease;
+  opacity: .85;
+}
+.rsb-caret.open { transform: rotate(0deg); }
+
+/* when mini hide caret nicely */
+.rsb--mini .rsb-item.no-caret .rsb-caret { display:none; }
+
+/* section */
+.rsb-sec { margin-top: 2px; }
+.rsb-parent { font-weight: 800; }
+
+/* sublist */
+.rsb-sub {
+  margin: 4px 0 8px 0;
+  padding-left: 8px;
+  border-left: 2px solid rgba(255,255,255,.15);
+  overflow: hidden;
+  animation: rsb-sub-reveal .28s ease-out both;
+}
+
+.rsb-subitem {
+  display: block;
+  color: var(--rsb-muted);
+  text-decoration: none;
+  padding: 8px 10px 8px 44px;
+  margin: 2px 0;
+  border-radius: 10px;
+  position: relative;
+  transform: translateX(-4px);
+  opacity: 0;
+  animation: rsb-sub-in .25s ease forwards;
+}
+.rsb-subitem:nth-child(1){ animation-delay: .02s }
+.rsb-subitem:nth-child(2){ animation-delay: .05s }
+.rsb-subitem:nth-child(3){ animation-delay: .08s }
+.rsb-subitem:nth-child(4){ animation-delay: .11s }
+.rsb-subitem:nth-child(5){ animation-delay: .14s }
+.rsb-subitem:nth-child(6){ animation-delay: .17s }
+.rsb-subitem:nth-child(7){ animation-delay: .20s }
+.rsb-subitem:nth-child(8){ animation-delay: .23s }
+.rsb-subitem:nth-child(9){ animation-delay: .26s }
+
+.rsb-subitem:hover {
+  color: var(--rsb-active);
+  background: rgba(255,255,255,.08);
+}
+.rsb-subitem.active {
+  color: var(--rsb-active);
+  background: rgba(255,255,255,.16);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,.18);
+}
+
+/* mini mode */
+.rsb--mini .rsb-lbl { display: none; }
+.rsb--mini .rsb { width: var(--rsb-w-mini); }
+.rsb--mini .rsb-sub { display: none; } /* hide sub menu when collapsed */
+
+/* layout helper so page content can shift */
+:root { --sidebar-offset: var(--rsb-w); }
+.rsb { --sidebar-offset: var(--rsb-w); }
+.rsb--mini { --sidebar-offset: var(--rsb-w-mini); }
+
+/* ================= Animations ================= */
+@keyframes rsb-slide-in {
+  from { opacity: 0; transform: translateX(-12px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes rsb-ripple {
+  0%   { opacity: .18; }
+  100% { opacity: 0; }
+}
+
+@keyframes rsb-sub-reveal {
+  from { max-height: 0; opacity: .3; }
+  to   { max-height: 600px; opacity: 1; }
+}
+
+@keyframes rsb-sub-in {
+  from { opacity: 0; transform: translateX(-6px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ================= Reduced Motion ================= */
+@media (prefers-reduced-motion: reduce) {
+  .rsb, .rsb-sub, .rsb-subitem {
+    animation: none !important;
+  }
+  .rsb-item, .rsb-burger, .rsb-close, .rsb-subitem, .rsb-caret {
+    transition: none !important;
+  }
+}
+
+/* ================= Responsive ================= */
+@media (max-width: 900px) {
+  .rsb { width: var(--rsb-w-mini); }
+}
+
+/* Optional: if your main content uses .res-content, let it shift based on sidebar width */
+.res-content {
+  margin-left: var(--sidebar-offset);
+  transition: margin-left .25s ease;
+}
